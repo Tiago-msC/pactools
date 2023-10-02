@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Um CLI para agilizar o processo de criação de projetos em TLPP e ADVPR",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tiago-msC/pactools.git"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
