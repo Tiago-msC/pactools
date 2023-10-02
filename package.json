@@ -1,5 +1,5 @@
 {
-  "name": "pactools",
+  "name": "@tiagomsc_/pactools",
   "version": "1.0.0",
   "description": "Um CLI para agilizar o processo de criação de projetos em TLPP e ADVPR",
   "main": "index.js",
