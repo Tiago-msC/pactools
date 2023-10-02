@@ -1,0 +1,66 @@
+#include "PROTHEUS.CH"
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} ${NAMECLASS}TestSuite
+
+Criacao da classe principal
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+@see        FWDefaultTestSuit , FWDefaultTestCase
+/*/
+//-------------------------------------------------------------------
+CLASS ${NAMECLASS}TestSuite FROM FWDefaultTestSuite
+	DATA aParam
+
+	// Criacao dos metodos na classe
+	METHOD ${NAMECLASS}TestSuite() CONSTRUCTOR
+	METHOD SetUpSuite()
+	METHOD TearDownSuite()
+ENDCLASS
+
+//-----------------------------------------------------------------
+/*/{Protheus.doc} ${NAMECLASS}TestSuite
+Instancia os casos de teste
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+/*/
+//-----------------------------------------------------------------
+METHOD ${NAMECLASS}TestSuite() CLASS ${NAMECLASS}TestSuite
+	_Super:FWDefaultTestSuite()
+	Self:AddTestSuite(${NAMECLASS}TestGroup():${NAMECLASS}TestGroup())
+Return
+
+//-----------------------------------------------------------------
+/*/{Protheus.doc} SetUpSuite
+Prepara o ambiente para execucao dos casos de teste
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+/*/
+//-----------------------------------------------------------------
+METHOD SetUpSuite() CLASS ${NAMECLASS}TestSuite
+	Local oHelper := FWTestHelper():New()
+
+  oHelper:UTOpenFilial("T1", "D MG 01 ", "SIGAMDI",, "admin", "1234")
+	oHelper:Activate()
+Return oHelper
+
+//-----------------------------------------------------------------
+/*/{Protheus.doc} TearDownSuite
+Finaliza o ambiente apos a execucao dos casos de teste
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+/*/
+//-----------------------------------------------------------------
+METHOD TearDownSuite() CLASS ${NAMECLASS}TestSuite
+	Local oHelper := FWTestHelper():New()
+
+	oHelper:UTCloseFilial()
+Return oHelper

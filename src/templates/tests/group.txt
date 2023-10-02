@@ -1,0 +1,30 @@
+#include "PROTHEUS.CH"
+
+//-------------------------------------------------------------------
+/*/{Protheus.doc} ${NAMECLASS}TestGroup
+
+Cria��o da classe principal
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+@see        FWDefaultTestSuit , FWDefaultTestCase
+/*/
+//-------------------------------------------------------------------
+CLASS ${NAMECLASS}TestGroup FROM FWDefaultTestSuite
+	METHOD ${NAMECLASS}TestGroup() CONSTRUCTOR
+ENDCLASS
+
+//-----------------------------------------------------------------
+/*/{Protheus.doc} ${NAMECLASS}TestGroup
+Instancia os casos de teste
+
+@author     COLOQUE O AUTOR
+@since      COLOQUE A DATA
+@version    1.0
+/*/
+//-----------------------------------------------------------------
+METHOD ${NAMECLASS}TestGroup() CLASS ${NAMECLASS}TestGroup
+	_Super:FWDefaultTestSuite()
+	Self:AddTestCase(${NAMECLASS}TestCase():${NAMECLASS}TestCase())
+Return

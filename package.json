@@ -1,0 +1,22 @@
+{
+  "name": "pactools",
+  "version": "1.0.0",
+  "description": "Um CLI para agilizar o processo de criação de projetos em TLPP e ADVPR",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "pactools": "index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.0.0",
+    "ejs": "^3.1.9",
+    "inquirer": "^8.0.0",
+    "shelljs": "^0.8.5"
+  }
+}
