@@ -93,17 +93,22 @@ program
 program.parse(process.argv);
 
 function generateFileTests(currentDirectory, nome) {
-  generateSuite(currentDirectory, nome);
-  generateGroup(currentDirectory, nome);
-  generateCases(currentDirectory, nome);
-
-  console.log(`\n${chalk.gray('🎉 Foram criados as seguintes pastas e arquivos:')}\n`);
-  console.log(`${chalk.green('📁 Testes')} ${chalk.yellowBright('(ADVPR)')}`);
-  console.log(chalk.green('├── 📁 Suite'));
-  console.log(chalk.green(`│   ├── 📄 ${nome}TestSuite.prw`));
-  console.log(chalk.green('├── 📁 Group'));
-  console.log(chalk.green(`│   ├── 📄 ${nome}TestGroup.prw`));
-  console.log(chalk.green('└── 📁 Cases'));
-  console.log(chalk.green(`    ├── 📄 ${nome}TestCases.prw`));
-  console.log('\n');
+  try {
+    
+    generateSuite(currentDirectory, nome);
+    generateGroup(currentDirectory, nome);
+    generateCases(currentDirectory, nome);
+  
+    console.log(`\n${chalk.gray('🎉 Foram criados as seguintes pastas e arquivos:')}\n`);
+    console.log(`${chalk.green('📁 Testes')} ${chalk.yellowBright('(ADVPR)')}`);
+    console.log(chalk.green('├── 📁 Suite'));
+    console.log(chalk.green(`│   ├── 📄 ${nome}TestSuite.prw`));
+    console.log(chalk.green('├── 📁 Group'));
+    console.log(chalk.green(`│   ├── 📄 ${nome}TestGroup.prw`));
+    console.log(chalk.green('└── 📁 Cases'));
+    console.log(chalk.green(`    ├── 📄 ${nome}TestCases.prw`));
+    console.log('\n');
+  } catch (error) {
+    console.log(chalk.red("\nOcorreu um erro ao criar os arquivos de testes\n"));
+  }
 }
