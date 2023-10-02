@@ -1,19 +1,15 @@
 const fs = require("fs");
 const path = require("path");
 const shell = require("shelljs");
+const getSuiteTemplate = require("../templates/tests/suite");
 
 function generateSuite(currentPath, nome) {
-  const templatePath = path.join("src", "templates", "tests", "suite.txt");
-  const templateSuite = fs.readFileSync(templatePath, "utf-8");
-  const templateSuiteComNome = templateSuite.replace(
-    /\${NAMECLASS}/g,
-    `${nome}`
-  );
+  const templateSuite = getSuiteTemplate(nome);
 
   shell.mkdir("-p", path.join(currentPath, "Testes", "Suite"));
   fs.writeFile(
     path.join(currentPath, "Testes", "Suite", `${nome}TestSuite.prw`),
-    templateSuiteComNome,
+    templateSuite,
     (err) => {
       if (err) {
         return console.log(err);

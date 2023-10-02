@@ -1,7 +1,8 @@
-#INCLUDE "PROTHEUS.CH"
+function getCasesTemplate(nameClass) {
+	return `#INCLUDE "PROTHEUS.CH"
 
 //-------------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestCase
+/*/{Protheus.doc} ${nameClass}TestCase
 
 @author COLOQUE O AUTOR
 @since COLOQUE A DATA
@@ -9,11 +10,11 @@
 @see FWDefaultTestSuit , FWDefaultTestCase
 /*/
 //-------------------------------------------------------------------
-Class ${NAMECLASS}TestCase FROM FWDefaultTestCase
+Class ${nameClass}TestCase FROM FWDefaultTestCase
 	DATA oHelper
 
 	METHOD  SetUpClass()
-	METHOD  ${NAMECLASS}TestCase() Constructor
+	METHOD  ${nameClass}TestCase() Constructor
 
 	METHOD  teste_001()
 	// METHOD  teste_002()
@@ -22,35 +23,35 @@ Class ${NAMECLASS}TestCase FROM FWDefaultTestCase
 EndClass
 
 //-----------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestCase
- Instancia os casos de teste
+/*/{Protheus.doc} ${nameClass}TestCase
+	Instancia os casos de teste
 
 @author COLOQUE O AUTOR
 @since COLOQUE A DATA
 @version 1.0
 /*/
 //-----------------------------------------------------------------
-METHOD ${NAMECLASS}TestCase() Class ${NAMECLASS}TestCase
+METHOD ${nameClass}TestCase() Class ${nameClass}TestCase
 	_Super:FWDefaultTestSuite()
 
 	//If GetRpoRelease() > "12.1.027"
 	Self:AddTestMethod("teste_001",,"POST - Gravar agrupador de ativos sem enviar codassets")
 	// Self:AddTestMethod("teste_002",,"POST - Teste negativo - JSON com propriedades insuficientes")
 	// Self:AddTestMethod("teste_003",,"POST - Teste negativo - JSON com propriedades vazias")
-	// Self:AddTestMethod("teste_004",,"POST - Gravar alteracao ${NAMECLASSLOWER}")
+	// Self:AddTestMethod("teste_004",,"POST - Gravar alteracao ${String(nameClass).toLocaleLowerCase()}")
 	//EndIf
 Return
 
 //-----------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestCase
- Instancia os casos de teste
+/*/{Protheus.doc} ${nameClass}TestCase
+	Instancia os casos de teste
 
 @author COLOQUE O AUTOR
 @since COLOQUE A DATA
 @version 1.0
 /*/
 //-----------------------------------------------------------------
-METHOD SetUpClass() CLASS ${NAMECLASS}TestCase
+METHOD SetUpClass() CLASS ${nameClass}TestCase
 	Local oHelper := FWTestHelper():New()
 Return oHelper
 
@@ -62,7 +63,7 @@ Teste automatizado - Todas as configuracoes de agrupador patrimonial disponiveis
 @version 1.0
 /*/
 //-------------------------------------------------------------------
-METHOD teste_001() CLASS ${NAMECLASS}TestCase
+METHOD teste_001() CLASS ${nameClass}TestCase
 	Local aHeader   := {}
 	Local cBody     := ""
 	Local cRet      := ""
@@ -74,31 +75,32 @@ METHOD teste_001() CLASS ${NAMECLASS}TestCase
 	cBody := '{"teste": "Teste"}'
 
 
-    /* O EncodeUTF8 convertera a string para UTF8, mesmo tipo de encode enviado 
-    pelo front end para a API SaveAssetGroup*/
-    
-    cBody := EncodeUtf8(cBody, "cp1252") 
+		/* O EncodeUTF8 convertera a string para UTF8, mesmo tipo de encode enviado 
+		pelo front end para a API SaveAssetGroup*/
+		
+		cBody := EncodeUtf8(cBody, "cp1252") 
 
-    oHelper:Activate()
+		oHelper:Activate()
 
-    aHeader := {"Content-Type: application/json", "Authorization: Basic " + oHelper:UtSetAuthorization('admin','1234') + ""}
+		aHeader := {"Content-Type: application/json", "Authorization: Basic " + oHelper:UtSetAuthorization('admin','1234') + ""}
 
-    If !oHelper:UTSetAPI(cURL, "REST")
-        oHelper:UTPutError("Falha ao executar metodo GET - Ocorreu um erro ao conectar-se ao servidor")
-    Else        
-        cJsonRet := oHelper:UTPostWS(cBody,aHeader)  
-        cRet     := oResponse:FromJson(cJsonRet)
-        
-        If cJsonRet == "{}"
-            oHelper:UTPutError("Falha ao gravar ${NAMECLASSLOWER}")
-        EndIf
+		If !oHelper:UTSetAPI(cURL, "REST")
+				oHelper:UTPutError("Falha ao executar metodo GET - Ocorreu um erro ao conectar-se ao servidor")
+		Else        
+				cJsonRet := oHelper:UTPostWS(cBody,aHeader)  
+				cRet     := oResponse:FromJson(cJsonRet)
+				
+				If cJsonRet == "{}"
+						oHelper:UTPutError("Falha ao gravar ${String(nameClass).toLocaleLowerCase()}")
+				EndIf
 
-    EndIf
-    
-    oHelper:AssertTrue(oHelper:lOk, "")
+		EndIf
+		
+		oHelper:AssertTrue(oHelper:lOk, "")
 
 Return oHelper
 
+// SE NECESSARIO, DESCOMENTE OS METODOS ABAIXO E IMPLEMENTE OS TESTES!!!
 //-------------------------------------------------------------------
 /*/{Protheus.doc} teste_001
 Teste automatizado - Todas as configuracoes de conciliacao disponiveis
@@ -107,7 +109,7 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 @version 1.0
 /*/
 //-------------------------------------------------------------------
-// METHOD teste_002() CLASS ${NAMECLASS}TestCase
+// METHOD teste_002() CLASS ${nameClass}TestCase
 //     Local aHeader   := {}
 //     Local cBody     := ""
 //     Local cRet      := ""
@@ -133,10 +135,10 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //              '          "rule":{"ori_fields":"E1_MSUIDT","ori_link":"E1_MSUIDT = RTRIM(CV3_IDORIG)",'+;
 //              '                      "des_fields":"CT2_MSUIDT","des_link":"CT2_MSUIDT = RTRIM(CV3_IDDEST)","condition":"CV3_IDORIG <> '+ "' '" +' AND CV3_IDDEST <> '+ "' '" +' AND E1_MSUIDT = CV3_IDORIG AND CT2_MSUIDT = CV3_IDDEST"}}]},'+;
 //              '"total":{"totalori":[{"label":"Total","total":"E1_VALOR"}],"totaldes":[{"label":"Total a D�bito","condition":"CT2_DC = ' + "'1'" + ' OR CT2_DC = ' + "'3'" + '","total":"CT2_VALOR"},{"label":"Total a Cr�dito","condition":"CT2_DC = ' + "'2'" + ' OR CT2_DC = '+ "'3'" + '","total":"CT2_VALOR"}]}}'
-    
+		
 //     /* O EncodeUTF8 convertera a string para UTF8, mesmo tipo de encode enviado 
 //     pelo front end para a API SaveAssetGroup*/
-    
+		
 //     cBody := EncodeUtf8(cBody, "cp1252") 
 
 //     oHelper:Activate()
@@ -154,7 +156,7 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //         EndIf
 
 //     EndIf
-    
+		
 //     oHelper:AssertFalse(oHelper:lOk, "")
 // Return oHelper
 
@@ -166,7 +168,7 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 // @version 1.0
 // /*/
 // //-------------------------------------------------------------------
-// METHOD teste_003() CLASS ${NAMECLASS}TestCase
+// METHOD teste_003() CLASS ${nameClass}TestCase
 //     Local aHeader   := {}
 //     Local cBody     := ""
 //     Local cRet      := ""
@@ -192,10 +194,10 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //              '          "rule":{"ori_fields":"E1_MSUIDT","ori_link":"E1_MSUIDT = RTRIM(CV3_IDORIG)",'+;
 //              '                      "des_fields":"CT2_MSUIDT","des_link":"CT2_MSUIDT = RTRIM(CV3_IDDEST)","condition":"CV3_IDORIG <> '+ "' '" +' AND CV3_IDDEST <> '+ "' '" +' AND E1_MSUIDT = CV3_IDORIG AND CT2_MSUIDT = CV3_IDDEST"}}]},'+;
 //              '"total":{"totalori":[{"label":"Total","total":"E1_VALOR"}],"totaldes":[{"label":"Total a D�bito","condition":"CT2_DC = ' + "'1'" + ' OR CT2_DC = ' + "'3'" + '","total":"CT2_VALOR"},{"label":"Total a Cr�dito","condition":"CT2_DC = ' + "'2'" + ' OR CT2_DC = '+ "'3'" + '","total":"CT2_VALOR"}]}}'
-    
+		
 //     /* O EncodeUTF8 convertera a string para UTF8, mesmo tipo de encode enviado 
 //     pelo front end para a API SaveAssetGroup*/
-    
+		
 //     cBody := EncodeUtf8(cBody, "cp1252") 
 
 //     oHelper:Activate()
@@ -207,13 +209,13 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //     Else        
 //         cJsonRet := oHelper:UTPostWS(cBody,aHeader)  
 //         cRet     := oResponse:FromJson(cJsonRet)
-        
+				
 //         If cJsonRet <> "{}"
 //             oHelper:UTPutError("Falha ao gravar matchsetting")
 //         EndIf
 
 //     EndIf
-    
+		
 //     oHelper:AssertFalse(oHelper:lOk, "")
 
 // Return oHelper
@@ -226,7 +228,7 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 // @version 1.0
 // /*/
 // //-------------------------------------------------------------------
-// METHOD teste_004() CLASS ${NAMECLASS}TestCase
+// METHOD teste_004() CLASS ${nameClass}TestCase
 //     Local aHeader   := {}
 //     Local cBody     := ""
 //     Local cRet      := ""
@@ -252,10 +254,10 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //              '          "rule":{"ori_fields":"E1_MSUIDT","ori_link":"E1_MSUIDT = RTRIM(CV3_IDORIG)",'+;
 //              '                      "des_fields":"CT2_MSUIDT","des_link":"CT2_MSUIDT = RTRIM(CV3_IDDEST)","condition":"CV3_IDORIG <> '+ "' '" +' AND CV3_IDDEST <> '+ "' '" +' AND E1_MSUIDT = CV3_IDORIG AND CT2_MSUIDT = CV3_IDDEST"}}]},'+;
 //              '"total":{"totalori":[{"label":"Total","total":"E1_VALOR"}],"totaldes":[{"label":"Total a D�bito","condition":"CT2_DC = ' + "'1'" + ' OR CT2_DC = ' + "'3'" + '","total":"CT2_VALOR"},{"label":"Total a Cr�dito","condition":"CT2_DC = ' + "'2'" + ' OR CT2_DC = '+ "'3'" + '","total":"CT2_VALOR"}]}}'
-    
+		
 //     /* O EncodeUTF8 convertera a string para UTF8, mesmo tipo de encode enviado 
 //     pelo front end para a API SaveAssetGroup*/
-    
+		
 //     cBody := EncodeUtf8(cBody, "cp1252") 
 
 //     oHelper:Activate()
@@ -267,13 +269,17 @@ Teste automatizado - Todas as configuracoes de conciliacao disponiveis
 //     Else        
 //         cJsonRet := oHelper:UTPostWS(cBody,aHeader)  
 //         cRet     := oResponse:FromJson(cJsonRet)
-        
+				
 //         If cJsonRet <> "{}"
 //             oHelper:UTPutError("Falha ao gravar matchsetting")
 //         EndIf
 
 //     EndIf
-    
+		
 //     oHelper:AssertTrue(oHelper:lOk, "")
 
 // Return oHelper
+`
+}
+
+module.exports = getCasesTemplate;

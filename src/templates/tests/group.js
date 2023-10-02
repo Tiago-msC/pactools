@@ -1,9 +1,10 @@
-#include "PROTHEUS.CH"
+function getGroupTemplate(nameClass) {
+	return `#include "PROTHEUS.CH"
 
 //-------------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestGroup
+/*/{Protheus.doc} ${nameClass}TestGroup
 
-Cria��o da classe principal
+Criacao da classe principal
 
 @author     COLOQUE O AUTOR
 @since      COLOQUE A DATA
@@ -11,12 +12,12 @@ Cria��o da classe principal
 @see        FWDefaultTestSuit , FWDefaultTestCase
 /*/
 //-------------------------------------------------------------------
-CLASS ${NAMECLASS}TestGroup FROM FWDefaultTestSuite
-	METHOD ${NAMECLASS}TestGroup() CONSTRUCTOR
+CLASS ${nameClass}TestGroup FROM FWDefaultTestSuite
+	METHOD ${nameClass}TestGroup() CONSTRUCTOR
 ENDCLASS
 
 //-----------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestGroup
+/*/{Protheus.doc} ${nameClass}TestGroup
 Instancia os casos de teste
 
 @author     COLOQUE O AUTOR
@@ -24,7 +25,11 @@ Instancia os casos de teste
 @version    1.0
 /*/
 //-----------------------------------------------------------------
-METHOD ${NAMECLASS}TestGroup() CLASS ${NAMECLASS}TestGroup
+METHOD ${nameClass}TestGroup() CLASS ${nameClass}TestGroup
 	_Super:FWDefaultTestSuite()
-	Self:AddTestCase(${NAMECLASS}TestCase():${NAMECLASS}TestCase())
+	Self:AddTestCase(${nameClass}TestCase():${nameClass}TestCase())
 Return
+	`
+}
+
+module.exports = getGroupTemplate;

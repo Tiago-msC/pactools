@@ -1,7 +1,8 @@
-#include "PROTHEUS.CH"
+function getSuiteTemplate(nameClass) {
+  return `#include "PROTHEUS.CH"
 
 //-------------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestSuite
+/*/{Protheus.doc} ${nameClass}TestSuite
 
 Criacao da classe principal
 
@@ -11,17 +12,17 @@ Criacao da classe principal
 @see        FWDefaultTestSuit , FWDefaultTestCase
 /*/
 //-------------------------------------------------------------------
-CLASS ${NAMECLASS}TestSuite FROM FWDefaultTestSuite
+CLASS ${nameClass}TestSuite FROM FWDefaultTestSuite
 	DATA aParam
 
 	// Criacao dos metodos na classe
-	METHOD ${NAMECLASS}TestSuite() CONSTRUCTOR
+	METHOD ${nameClass}TestSuite() CONSTRUCTOR
 	METHOD SetUpSuite()
 	METHOD TearDownSuite()
 ENDCLASS
 
 //-----------------------------------------------------------------
-/*/{Protheus.doc} ${NAMECLASS}TestSuite
+/*/{Protheus.doc} ${nameClass}TestSuite
 Instancia os casos de teste
 
 @author     COLOQUE O AUTOR
@@ -29,9 +30,9 @@ Instancia os casos de teste
 @version    1.0
 /*/
 //-----------------------------------------------------------------
-METHOD ${NAMECLASS}TestSuite() CLASS ${NAMECLASS}TestSuite
+METHOD ${nameClass}TestSuite() CLASS ${nameClass}TestSuite
 	_Super:FWDefaultTestSuite()
-	Self:AddTestSuite(${NAMECLASS}TestGroup():${NAMECLASS}TestGroup())
+	Self:AddTestSuite(${nameClass}TestGroup():${nameClass}TestGroup())
 Return
 
 //-----------------------------------------------------------------
@@ -43,10 +44,10 @@ Prepara o ambiente para execucao dos casos de teste
 @version    1.0
 /*/
 //-----------------------------------------------------------------
-METHOD SetUpSuite() CLASS ${NAMECLASS}TestSuite
+METHOD SetUpSuite() CLASS ${nameClass}TestSuite
 	Local oHelper := FWTestHelper():New()
 
-  oHelper:UTOpenFilial("T1", "D MG 01 ", "SIGAMDI",, "admin", "1234")
+	oHelper:UTOpenFilial("T1", "D MG 01 ", "SIGAMDI",, "admin", "1234")
 	oHelper:Activate()
 Return oHelper
 
@@ -59,8 +60,12 @@ Finaliza o ambiente apos a execucao dos casos de teste
 @version    1.0
 /*/
 //-----------------------------------------------------------------
-METHOD TearDownSuite() CLASS ${NAMECLASS}TestSuite
+METHOD TearDownSuite() CLASS ${nameClass}TestSuite
 	Local oHelper := FWTestHelper():New()
 
 	oHelper:UTCloseFilial()
 Return oHelper
+	`;
+}
+
+module.exports = getSuiteTemplate;
